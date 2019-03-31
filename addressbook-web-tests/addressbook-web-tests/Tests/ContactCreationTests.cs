@@ -12,10 +12,6 @@ namespace addressbook_web_tests
         [Test]
         public void ContactCreationTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            InitContactCreation();
-
             ContactData contact = new ContactData("First name1", "Last Name1", "Address company1");
             contact.Middlename = "Middle name";
             contact.Nickname = "Nickname";
@@ -41,11 +37,9 @@ namespace addressbook_web_tests
             contact.Address2 = "adress sec";
             contact.Phone2 = "home sec";
             contact.Notes = "notes sec";
-            
-            FillContactForm(contact);
-            SubmitContactCreation();
-            ReturnToContactsPage();
-            Logout();
+
+            app.Contacts.Create(contact);
+
         }
 
 
