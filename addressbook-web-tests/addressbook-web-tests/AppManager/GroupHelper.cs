@@ -25,6 +25,20 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public GroupHelper Modify(int num, GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            GroupSelection(num);
+            InitGroupModification();
+            FillGroupForm(group);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            manager.Auth.Logout();
+            return this;
+        }
+
+
+
         public GroupHelper Remove(int num)
         {
             manager.Navigator.GoToGroupsPage();
@@ -72,7 +86,19 @@ namespace addressbook_web_tests
 
         public GroupHelper GroupSelection(int i)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[i]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + i +"]")).Click();
+            return this;
+        }
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
             return this;
         }
 
