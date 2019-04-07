@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupModifyTests : TestBase
+    public class GroupModifyTests : AuthTestBase
     {
         [Test]
         public void GroupModifyTest()
@@ -17,7 +17,7 @@ namespace addressbook_web_tests
             GroupData newdata = new GroupData("modified group");
             newdata.Header = "modified group";
             newdata.Footer = "modified group";
-            app.Groups.Modify(2,newdata);
+            app.Groups.Modify(1,newdata);
         }
 
 

@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace addressbook_web_tests
 {
-    public class ContactModifyTests : TestBase
+    public class ContactModifyTests : AuthTestBase
     {
         [Test]
         public void ContactModifyTest()
@@ -37,7 +37,7 @@ namespace addressbook_web_tests
             contact.Phone2 = "home sec2";
             contact.Notes = "notes sec2";
 
-            app.Contacts.Modify(2, contact);
+            app.Contacts.Modify(1, contact);
         }
     }
 }

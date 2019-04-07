@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -20,7 +21,11 @@ namespace addressbook_web_tests
         protected LoginHelper loginHelper;
         protected NavigationHelper navigationHelper;
 
-        public ApplicationManager()
+        //устанавливает соответствие между текущим потом и объектом application manager
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
+
+        //constructor
+        private ApplicationManager()
         {
             driver = new FirefoxDriver();
             baseURL = "http://localhost";
@@ -31,14 +36,8 @@ namespace addressbook_web_tests
             contactHelper = new ContactHelper(this);
         }
 
-        public IWebDriver Driver {
-            get
-            {
-                return driver;
-            }
-        }
-
-        public void Stop ()
+        //destructor
+        ~ApplicationManager()
         {
             try
             {
@@ -49,6 +48,29 @@ namespace addressbook_web_tests
                 // Ignore errors if unable to close the browser
             }
         }
+
+
+        // singleton
+        public static ApplicationManager GetInstance()
+        {
+            if (!app.IsValueCreated)
+                {
+                    ApplicationManager newInstance = new ApplicationManager();
+                    newInstance.Navigator.OpenHomePage();
+                    app.Value = newInstance;
+
+
+            }
+            return app.Value;
+        }
+
+        public IWebDriver Driver {
+            get
+            {
+                return driver;
+            }
+        }
+
 
         public NavigationHelper Navigator
         {
