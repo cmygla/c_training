@@ -11,8 +11,27 @@ namespace addressbook_web_tests
 {
     public class GroupHelper : BaseHelper
     {
+        private GroupData defaultGroup = new GroupData("TestGroup0");
+
+
         public GroupHelper(ApplicationManager manager) : base(manager)
-        { }
+        {
+            defaultGroup.Header = "TestGroup0";
+            defaultGroup.Footer = "TestGroup0";
+        }
+
+        private int GroupExists(int i)
+        {
+            if (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + i + "]")))
+            {
+                InitGroupCreation();
+                FillGroupForm(defaultGroup);
+                SubmitGroupCreation();
+                ReturnToGroupsPage();
+                i = 1;
+            }
+            return i;
+        }
 
         public GroupHelper Create(GroupData group)
         {
@@ -27,6 +46,7 @@ namespace addressbook_web_tests
         public GroupHelper Modify(int num, GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
+            num = GroupExists(num);
             GroupSelection(num);
             InitGroupModification();
             FillGroupForm(group);
@@ -35,11 +55,10 @@ namespace addressbook_web_tests
             return this;
         }
 
-
-
         public GroupHelper Remove(int num)
         {
             manager.Navigator.GoToGroupsPage();
+            num = GroupExists(num);
             GroupSelection(num);
             GroupDeletion();
             ReturnToGroupsPage();
@@ -60,8 +79,6 @@ namespace addressbook_web_tests
 
             return this;
         }
-
-
 
         public GroupHelper SubmitGroupCreation()
         {

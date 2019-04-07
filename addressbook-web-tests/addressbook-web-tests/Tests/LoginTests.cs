@@ -22,8 +22,6 @@ namespace addressbook_web_tests
 
             //verification
             Assert.IsTrue(app.Auth.IsLoggedIn(account));
-
-            app.Auth.Logout();
         }
 
         [Test]
@@ -37,7 +35,7 @@ namespace addressbook_web_tests
             app.Auth.Login(account);
 
             //verification
-            Assert.IsFalse(app.Auth.IsLoggedIn(account));
+            Assert.IsFalse(app.Auth.IsLoggedIn());
         }
     }
 }
