@@ -12,35 +12,8 @@ namespace addressbook_web_tests
     public class ContactHelper:BaseHelper
     {
 
-        private ContactData defaultContact = new ContactData("First name0", "Last Name0", "Address company0");
-
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
-
-            defaultContact.Middlename = "Middle name";
-            defaultContact.Nickname = "Nickname";
-            defaultContact.Photo = "";
-            defaultContact.Title = "Title";
-            defaultContact.Company = "Company";
-            defaultContact.Address = "Address company";
-            defaultContact.Telhome = "Tel home";
-            defaultContact.Telmobile = "Tel mobile";
-            defaultContact.Telwork = "Tel work";
-            defaultContact.Telfax = "Tel fax";
-            defaultContact.Email1 = "email1";
-            defaultContact.Email2 = "email2";
-            defaultContact.Email3 = "email3";
-            defaultContact.Homepage = "homepage";
-            defaultContact.Bday = "3";
-            defaultContact.Bmonth = "January";
-            defaultContact.Byear = "1987";
-            defaultContact.Aday = "3";
-            defaultContact.Amonth = "January";
-            defaultContact.Ayear = "2007";
-            defaultContact.Newgroup = "[none]";
-            defaultContact.Address2 = "adress sec";
-            defaultContact.Phone2 = "home sec";
-            defaultContact.Notes = "notes sec";
         }
 
         public ContactHelper Create(ContactData contact)
@@ -53,24 +26,19 @@ namespace addressbook_web_tests
             return this;
         }
 
-        private int ContactExists(int i)
+        public bool ContactExists(int i)
         {
             i = i + 1;
-            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + i + "]")))
+            if (IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + i + "]")))
             {
-                InitContactCreation();
-                FillContactForm(defaultContact);
-                SubmitContactCreation();
-                manager.Navigator.ReturnToContactsPage();
-                i = 2;
+                return true;
             }
-            return i;
+            return false;
         }
 
         public ContactHelper Remove(int i)
         {
             manager.Navigator.ReturnToContactsPage();
-            i = ContactExists(i);
             ContactSelection(i);
             ContactDeletion();
             manager.Navigator.ReturnToContactsPage();
@@ -80,7 +48,6 @@ namespace addressbook_web_tests
         public ContactHelper Modify(int i, ContactData contact)
         {
             manager.Navigator.ReturnToContactsPage();
-            i = ContactExists(i);
             ContactSelection(i);
             InitContactModification(i);
             ModifyContactForm(contact);
@@ -201,12 +168,14 @@ namespace addressbook_web_tests
 
         public ContactHelper ContactSelection(int i)
         {
+            i = i + 1;
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+i+"]/td/input")).Click();
             return this;
         }
 
         public ContactHelper InitContactModification(int i)
         {
+            i = i + 1;
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+i+"]/td[8]/a/img")).Click();
             return this;
         }

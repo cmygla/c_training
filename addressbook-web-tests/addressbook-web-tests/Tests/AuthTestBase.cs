@@ -18,7 +18,7 @@ namespace addressbook_web_tests
         [TearDown]
         public void TeardownLogin()
         {
-            //app.Auth.Logout();
+            
         }
     }
 }

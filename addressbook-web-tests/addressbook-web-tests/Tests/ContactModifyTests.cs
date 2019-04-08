@@ -37,7 +37,14 @@ namespace addressbook_web_tests
             contact.Phone2 = "home sec2";
             contact.Notes = "notes sec2";
 
-            app.Contacts.Modify(1, contact);
+            int num = 1;
+            if (!app.Contacts.ContactExists(num))
+            {
+                ContactData contact1 = new ContactData("","","");
+                app.Contacts.Create(contact1);
+                num = 1;
+            }
+            app.Contacts.Modify(num, contact);
         }
     }
 }

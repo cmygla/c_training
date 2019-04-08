@@ -8,15 +8,15 @@ namespace addressbook_web_tests
 {
     public class ContactData
     {
-        private string firstname;
+        private string firstname="default";
         private string middlename ="";
-        private string lastname;
+        private string lastname = "default";
         private string nickname="";
         private string photo = "";
         private string title = "";
 
         private string company="";
-        private string address;
+        private string address = "default";
         private string telhome = "";
         private string telmobile="";
         private string telwork="";

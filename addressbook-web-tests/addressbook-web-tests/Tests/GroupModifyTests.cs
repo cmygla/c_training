@@ -14,10 +14,18 @@ namespace addressbook_web_tests
         [Test]
         public void GroupModifyTest()
         {
+            int num = 1;
             GroupData newdata = new GroupData("modified group");
             newdata.Header = "modified group";
             newdata.Footer = "modified group";
-            app.Groups.Modify(1,newdata);
+
+            if (!app.Groups.GroupExists(num))
+            {
+                GroupData group = new GroupData("");
+                app.Groups.Create(group);
+                num = 1;
+            }
+            app.Groups.Modify(num, newdata);
         }
 
 

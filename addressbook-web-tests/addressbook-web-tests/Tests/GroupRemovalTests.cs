@@ -13,7 +13,14 @@ namespace addressbook_web_tests
         [Test]
         public void GroupRemovalTest()
         {
-            app.Groups.Remove(1);
+            int num = 1;
+            if (!app.Groups.GroupExists(num))
+            {
+                GroupData group = new GroupData("");
+                app.Groups.Create(group);
+                num = 1;
+            }
+            app.Groups.Remove(num);
         }
     }
 }

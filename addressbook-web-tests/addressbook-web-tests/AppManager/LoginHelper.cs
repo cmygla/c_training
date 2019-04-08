@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
+
 
 namespace addressbook_web_tests
 {
@@ -23,6 +25,19 @@ namespace addressbook_web_tests
                     return;
                 }
                 Logout();
+            }
+
+
+            for (int second = 0; ; second++)
+            {
+                if (second >= 60) break;
+                try
+                {
+                    if (IsElementPresent(By.XPath("//input[@value='Login']"))) break;
+                }
+                catch (Exception)
+                { }
+                Thread.Sleep(1000);
             }
 
             Type(By.Name("user"),account.Username);
