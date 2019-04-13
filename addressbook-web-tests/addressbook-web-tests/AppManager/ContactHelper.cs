@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace addressbook_web_tests
 {
@@ -15,6 +16,39 @@ namespace addressbook_web_tests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
+
+        // реализация кеширования в виде свойства
+        private List<ContactData> contactCache = null;
+
+        public List<ContactData> GetContactList()
+        {
+            if (contactCache == null)
+            {
+                contactCache = new List<ContactData>();
+
+                manager.Navigator.ReturnToContactsPage();
+
+                ICollection <IWebElement> rows = driver.FindElements(By.Name("entry"));
+                foreach (IWebElement element in rows)
+                {
+                    IList<IWebElement> cells = element.FindElements(By.TagName("td"));
+
+                    contactCache.Add(new ContactData(cells[2].Text, cells[1].Text, "")
+                    {   // получить атрибут ID
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                }
+            }
+            //возвратить новый список , построенный из старого для избежания модификации списка извне
+
+            return new List<ContactData>(contactCache);
+        }
+
+        internal int GetContactCount()
+        {
+            return driver.FindElements(By.Name("entry")).Count;
+        }
+
 
         public ContactHelper Create(ContactData contact)
         {
@@ -28,8 +62,7 @@ namespace addressbook_web_tests
 
         public bool ContactExists(int i)
         {
-            i = i + 1;
-            if (IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + i + "]")))
+            if (IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + (i+2) + "]")))
             {
                 return true;
             }
@@ -156,6 +189,7 @@ namespace addressbook_web_tests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -163,26 +197,39 @@ namespace addressbook_web_tests
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
+
+            for (int second = 0; ; second++)
+            {
+                if (second >= 60) break;
+                try
+                {
+                    if (IsElementPresent(By.XPath("//input[@value='Delete']"))) break;
+                }
+                catch (Exception)
+                { }
+                Thread.Sleep(1000);
+            }
+
+            contactCache = null;
             return this;
         }
 
         public ContactHelper ContactSelection(int i)
         {
-            i = i + 1;
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+i+"]/td/input")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+(i+2)+"]/td/input")).Click();
             return this;
         }
 
         public ContactHelper InitContactModification(int i)
         {
-            i = i + 1;
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+i+"]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+(i+2)+"]/td[8]/a/img")).Click();
             return this;
         }
 
         public ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
     }

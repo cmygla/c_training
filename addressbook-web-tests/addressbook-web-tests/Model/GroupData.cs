@@ -6,54 +6,58 @@ using System.Threading.Tasks;
 
 namespace addressbook_web_tests
 {
-    public class GroupData
+    //для класса определена функция сравнения
+    public class GroupData:IEquatable<GroupData>,IComparable<GroupData>
     {
-        private string name = "default";
-        private string header = "";
-        private string footer = "";
 
         public GroupData(string name)
         {
-            this.name = name;
+            Name = name;
         }
 
-        public string Name
+        //функция реализующая сравнение
+        public bool Equals(GroupData other)
         {
-            get
+            if (Object.ReferenceEquals(other,null))
             {
-                return name;
+                return false;
             }
-
-            set
+            if (Object.ReferenceEquals(this,other))
             {
-                this.name = value;
+                return true;
             }
+            return Name == other.Name;
         }
 
-        public string Header
+        //сравнение имен
+        public int CompareTo(GroupData other)
         {
-            get
+            if (Object.ReferenceEquals(other, null))
             {
-                return header;
+                return 1;
             }
+            return Name.CompareTo(other.Name);
 
-            set
-            {
-                this.header = value;
-            }
         }
-        public string Footer
+
+        public override int GetHashCode()
         {
-            get
-            {
-                return footer;
-            }
-
-            set
-            {
-                this.footer = value;
-            }
+            return Name.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return "Id="+Id;
+        }
+
+
+        public string Name { get; set; }
+
+        public string Header { get; set; }
+ 
+        public string Footer { get; set; }
+
+        public string Id { get; set; }
     }
 }
 

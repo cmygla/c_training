@@ -6,361 +6,91 @@ using System.Threading.Tasks;
 
 namespace addressbook_web_tests
 {
-    public class ContactData
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string firstname="default";
-        private string middlename ="";
-        private string lastname = "default";
-        private string nickname="";
-        private string photo = "";
-        private string title = "";
 
-        private string company="";
-        private string address = "default";
-        private string telhome = "";
-        private string telmobile="";
-        private string telwork="";
-        private string telfax="";
-
-        private string email1="";
-        private string email2="";
-        private string email3="";
-        private string homepage="";
-
-        private string bday="1";
-        private string bmonth="January";
-        private string byear="1900";
-
-        private string aday="1";
-        private string amonth="January";
-        private string ayear="1900";
-
-        private string newgroup="[none]";
-
-        private string address2="";
-        private string phone2="";
-        private string notes="";
+        private string bday = "1";
+        private string bmonth = "January";
+        private string byear = "1900";
+        private string aday = "1";
+        private string amonth = "January";
+        private string ayear = "1900";
+        private string newgroup = "[none]";
 
         public ContactData (string firstname, string lastname, string companyaddress)
         {
-            this.firstname = firstname;
-            this.lastname = lastname;
-            this.address = companyaddress;
+            Firstname = firstname;
+            Lastname = lastname;
+            Address = companyaddress;
         }
 
-        public string Firstname
+        //функция реализующая сравнение
+        public bool Equals(ContactData other)
         {
-            get
+            if (Object.ReferenceEquals(other, null))
             {
-                return firstname;
+                return false;
             }
-
-            set
+            if (Object.ReferenceEquals(this, other))
             {
-                this.firstname = value;
+                return true;
             }
+            return (Firstname == other.Firstname)&&(Lastname == other.Lastname);
         }
-        public string Middlename
+
+        //сравнение имен
+        public int CompareTo(ContactData other)
         {
-            get
+            if (Object.ReferenceEquals(other, null))
             {
-                return middlename;
+                return 1;
             }
+            return Firstname.CompareTo(other.Firstname);
 
-            set
-            {
-                this.middlename = value;
-            }
         }
-        public string Lastname
+
+        public override int GetHashCode()
         {
-            get
-            {
-                return lastname;
-            }
-
-            set
-            {
-                this.lastname = value;
-            }
+            return Firstname.GetHashCode();
         }
-        public string Nickname
+
+        public override string ToString()
         {
-            get
-            {
-                return nickname;
-            }
-
-            set
-            {
-                this.nickname = value;
-            }
-        }
-        public string Photo
-        {
-            get
-            {
-                return photo;
-            }
-
-            set
-            {
-                this.photo = value;
-            }
-        }
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-
-            set
-            {
-                this.title = value;
-            }
-        }
-        public string Company
-        {
-            get
-            {
-                return company;
-            }
-
-            set
-            {
-                this.company = value;
-            }
-        }
-        public string Address
-        {
-            get
-            {
-                return address;
-            }
-
-            set
-            {
-                this.address = value;
-            }
-        }
-        public string Telhome
-        {
-            get
-            {
-                return telhome;
-            }
-
-            set
-            {
-                this.telhome = value;
-            }
-        }
-        public string Telmobile
-        {
-            get
-            {
-                return telmobile;
-            }
-
-            set
-            {
-                this.telmobile = value;
-            }
-        }
-        public string Telwork
-        {
-            get
-            {
-                return telwork;
-            }
-
-            set
-            {
-                this.telwork = value;
-            }
-        }
-        public string Telfax
-        {
-            get
-            {
-                return telfax;
-            }
-
-            set
-            {
-                this.telfax = value;
-            }
-        }
-        public string Email1
-        {
-            get
-            {
-                return email1;
-            }
-
-            set
-            {
-                this.email1 = value;
-            }
-        }
-        public string Email2
-        {
-            get
-            {
-                return email2;
-            }
-
-            set
-            {
-                this.email2 = value;
-            }
-        }
-        public string Email3
-        {
-            get
-            {
-                return email3;
-            }
-
-            set
-            {
-                this.email3 = value;
-            }
+            return "Id=" + Id;
         }
 
-        public string Homepage
-        {
-            get
-            {
-                return homepage;
-            }
+        public string Firstname { get; set; }
+        public string Middlename { get; set; }
+        public string Lastname { get; set; }
+        public string Nickname { get; set; }
+        public string Photo { get; set; }
+        public string Title { get; set; }
+        public string Company { get; set; }
+        public string Address { get; set; }
+        public string Telhome { get; set; }
+        public string Telmobile { get; set; }
+        public string Telwork { get; set; }
+        public string Telfax { get; set; }
+        public string Email1 { get; set; }
+        public string Email2 { get; set; }
+        public string Email3 { get; set; }
+        public string Homepage { get; set; }
 
-            set
-            {
-                this.homepage = value;
-            }
-        }
-        public string Bday
-        {
-            get
-            {
-                return bday;
-            }
 
-            set
-            {
-                this.bday = value;
-            }
-        }
-        public string Bmonth
-        {
-            get
-            {
-                return bmonth;
-            }
+        public string Address2 { get; set; }
+        public string Phone2 { get; set; }
+        public string Notes { get; set; }
 
-            set
-            {
-                this.bmonth = value;
-            }
-        }
-        public string Byear
-        {
-            get
-            {
-                return byear;
-            }
+        public string Id { get; set; }
 
-            set
-            {
-                this.byear = value;
-            }
-        }
-        public string Aday
-        {
-            get
-            {
-                return aday;
-            }
+        public string Aday { get => aday; set => aday = value; }
+        public string Amonth { get => amonth; set => amonth = value; }
+        public string Ayear { get => ayear; set => ayear = value; }
 
-            set
-            {
-                this.aday = value;
-            }
-        }
-        public string Amonth
-        {
-            get
-            {
-                return amonth;
-            }
-
-            set
-            {
-                this.amonth = value;
-            }
-        }
-        public string Ayear
-        {
-            get
-            {
-                return ayear;
-            }
-
-            set
-            {
-                this.ayear = value;
-            }
-        }
-        public string Newgroup
-        {
-            get
-            {
-                return newgroup;
-            }
-
-            set
-            {
-                this.newgroup = value;
-            }
-        }
-        public string Address2
-        {
-            get
-            {
-                return address2;
-            }
-
-            set
-            {
-                this.address2 = value;
-            }
-        }
-        public string Phone2
-        {
-            get
-            {
-                return phone2;
-            }
-
-            set
-            {
-                this.phone2 = value;
-            }
-        }
-        public string Notes
-        {
-            get
-            {
-                return notes;
-            }
-
-            set
-            {
-                this.notes = value;
-            }
-        }
+        public string Bday { get => bday; set => bday = value; }
+        public string Bmonth { get => bmonth; set => bmonth = value; }
+        public string Byear { get => byear; set => byear = value; }
+        public string Newgroup { get => newgroup; set => newgroup = value; }
 
     }
 }

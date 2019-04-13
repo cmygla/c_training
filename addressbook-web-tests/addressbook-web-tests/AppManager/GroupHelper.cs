@@ -18,11 +18,34 @@ namespace addressbook_web_tests
 
         public bool GroupExists(int i)
         {
-            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + i + "]")))
+            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + (i+1) + "]")))
             {
                 return true;
             }
             return false;
+        }
+
+        // реализация кеширования в виде свойства
+        private List<GroupData> groupCache = null;
+
+        public List<GroupData> GetGroupList()
+        {
+            if (groupCache == null)
+            {
+                groupCache = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+                    groupCache.Add(new GroupData(element.Text)
+                    {   // получить атрибут ID
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                }
+            }
+            //возвратить новый список , построенный из старого для избежания модификации списка извне
+
+            return new List<GroupData>(groupCache);
         }
 
         public GroupHelper Create(GroupData group)
@@ -44,6 +67,11 @@ namespace addressbook_web_tests
             SubmitGroupModification();
             ReturnToGroupsPage();
             return this;
+        }
+
+        internal int GetGroupCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
         }
 
         public GroupHelper Remove(int num)
@@ -73,12 +101,14 @@ namespace addressbook_web_tests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            groupCache = null;
             return this;
         }
 
         public GroupHelper GroupDeletion()
         {
             driver.FindElement(By.Name("delete")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -89,13 +119,14 @@ namespace addressbook_web_tests
 
         public GroupHelper GroupSelection(int i)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + i +"]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (i+1) +"]")).Click();
             return this;
         }
 
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupCache = null;
             return this;
         }
 

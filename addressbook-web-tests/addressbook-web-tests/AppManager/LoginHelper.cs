@@ -28,18 +28,6 @@ namespace addressbook_web_tests
             }
 
 
-            for (int second = 0; ; second++)
-            {
-                if (second >= 60) break;
-                try
-                {
-                    if (IsElementPresent(By.XPath("//input[@value='Login']"))) break;
-                }
-                catch (Exception)
-                { }
-                Thread.Sleep(1000);
-            }
-
             Type(By.Name("user"),account.Username);
             Type(By.Name("pass"),account.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
@@ -50,6 +38,18 @@ namespace addressbook_web_tests
             if (IsLoggedIn())
             {
                 driver.FindElement(By.LinkText("Logout")).Click();
+
+                for (int second = 0; ; second++)
+                {
+                    if (second >= 60) break;
+                    try
+                    {
+                        if (IsElementPresent(By.XPath("//input[@value='Login']"))) break;
+                    }
+                    catch (Exception)
+                    { }
+                    Thread.Sleep(1000);
+                }
             }
         }
 
