@@ -19,6 +19,7 @@ namespace addressbook_web_tests
         private string newgroup = "[none]";
         private string allPhones;
         private string allEmails;
+        private string collapsedInfo;
 
         public ContactData (string firstname, string lastname, string companyaddress)
         {
@@ -153,15 +154,15 @@ namespace addressbook_web_tests
             }
         }
 
-        private string CleanUpEmail(string email)
+        private string CleanUpText(string text)
         {
-            if (email == null || email == "")
+            if (text == null || text == "")
             {
                 return "";
             }
             else
             {
-                return email + "\r\n";
+                return text + "\r\n";
             }
         }
 
@@ -175,12 +176,123 @@ namespace addressbook_web_tests
                 }
                 else
                 {
-                    return (CleanUpEmail(Email1) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
+                    return (CleanUpText(Email1) + CleanUpText(Email2) + CleanUpText(Email3)).Trim();
                 }
             }
             set
             {
                 allEmails = value;
+            }
+        }
+
+
+
+        public string CollapsedInfo
+        {
+            get
+            {
+                if (collapsedInfo != null)
+                {
+                    return collapsedInfo;
+                }
+                else
+                {
+                    string text = "";
+                    if (Firstname != null && Firstname != "")
+                    {
+                        text = text + Firstname;
+                    };
+                    if (Middlename != null && Middlename != "")
+                    {
+                        text = text + " " + Middlename;
+                    };
+                    if (Lastname != null && Lastname != "")
+                    {
+                        text = text + " " + Lastname;
+                    };
+                    text = text + "\r\n";
+
+                    if (Nickname != null && Nickname != "")
+                    {
+                        text = text + Nickname + "\r\n";
+                    };
+                    if (Title != null && Title != "")
+                    {
+                        text = text + Title + "\r\n";
+                    };
+                    if (Company != null && Company != "")
+                    {
+                        text = text + Company + "\r\n";
+                    };
+                    if (Address != null && Address != "")
+                    {
+                        text = text + Address + "\r\n";
+                    };
+
+
+                    if (Telhome != null && Telhome != "")
+                    {
+                        text = text + "H: " + Telhome + "\r\n";
+                    };
+                    if (Telmobile != null && Telmobile != "")
+                    {
+                        text = text + "M: " + Telmobile + "\r\n";
+                    };
+                    if (Telwork != null && Telwork != "")
+                    {
+                        text = text + "W: " + Telwork + "\r\n";
+                    };
+                    if (Telfax != null && Telfax != "")
+                    {
+                        text = text + "F: " + Telfax + "\r\n";
+                    };
+
+                    if (Email1 != null && Email1 != "")
+                    {
+                        text = text + Email1 + "\r\n";
+                    };
+                    if (Email2 != null && Email2 != "")
+                    {
+                        text = text + Email2 + "\r\n";
+                    };
+                    if (Email3 != null && Email3 != "")
+                    {
+                        text = text + Email3 + "\r\n";
+                    };
+
+                    if (Homepage != null && Homepage != "")
+                    {
+                        text = text + "Homepage:" + "\r\n" + Homepage + "\r\n";
+                    };
+                    if (Bday != null && Bmonth != null && Byear != null && Bday != "" && Bmonth != "" && Byear != "")
+                    {
+                        text = text + "Birthday " + Bday + ". " + Bmonth + " " + Byear + " (" + (System.DateTime.Today.Year - Convert.ToInt32(Byear)) + ")\r\n";
+                    };
+                    if (Aday != null && Amonth != null && Ayear != null && Aday != "" && Amonth != "" && Ayear != "")
+                    {
+                        text = text + "Anniversary " + Aday + ". " + Amonth + " " + Ayear + " (" + (System.DateTime.Today.Year - Convert.ToInt32(Ayear)) + ")\r\n";
+                    };
+
+                    if (Address2 != null && Address2 != "")
+                    {
+                        text = text + Address2 + "\r\n";
+                    };
+                    if (Phone2 != null && Phone2 != "")
+                    {
+                        text = text + "P: " + Phone2 + "\r\n";
+                    };
+                    if (Notes != null && Notes != "")
+                    {
+                        text = text + Notes;
+                    };
+
+                    return text;
+
+                }
+            }
+            set
+            {
+                collapsedInfo = value;
             }
         }
 

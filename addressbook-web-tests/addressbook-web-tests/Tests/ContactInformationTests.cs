@@ -12,16 +12,29 @@ namespace addressbook_web_tests
     {
 
         [Test]
-        public void TestContactInformation()
+        public void ContactInformationFromMainPage()
         {
-            ContactData fromTable = app.Contacts.GetContactInformationFromTable(0);
-            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
+            int num = 0;
+            ContactData fromTable = app.Contacts.GetContactInformationFromTable(num);
+            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(num);
 
             //verification
             Assert.AreEqual(fromTable, fromForm);
             Assert.AreEqual(fromTable.Address, fromForm.Address);
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
             Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
+
+        }
+
+        [Test]
+        public void ContactInformationFromContactDetails()
+        {
+            int num = 1;
+            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(num);
+            string fromDetails = app.Contacts.GetContactInformationFromDetails(num);
+
+            //verification
+            Assert.AreEqual(fromForm.CollapsedInfo, fromDetails);
 
         }
     }
