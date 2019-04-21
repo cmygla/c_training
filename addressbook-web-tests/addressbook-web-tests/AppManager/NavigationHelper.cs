@@ -28,8 +28,13 @@ namespace addressbook_web_tests
             driver.Navigate().GoToUrl(baseURL+ "/addressbook/");
         }
 
-        public void ReturnToContactsPage()
+        public void GoToContactsPage()
         {
+            if (driver.Url == baseURL + "/addressbook/"
+                && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("home")).Click();
         }
 

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-
+        //fields
         private string bday = "1";
         private string bmonth = "January";
         private string byear = "1900";
@@ -16,6 +17,8 @@ namespace addressbook_web_tests
         private string amonth = "January";
         private string ayear = "1900";
         private string newgroup = "[none]";
+        private string allPhones;
+        private string allEmails;
 
         public ContactData (string firstname, string lastname, string companyaddress)
         {
@@ -67,37 +70,119 @@ namespace addressbook_web_tests
         }
 
         public string Firstname { get; set; }
+
         public string Middlename { get; set; }
+
         public string Lastname { get; set; }
+
         public string Nickname { get; set; }
+
         public string Photo { get; set; }
+
         public string Title { get; set; }
+
         public string Company { get; set; }
+
         public string Address { get; set; }
+
         public string Telhome { get; set; }
+
         public string Telmobile { get; set; }
+
         public string Telwork { get; set; }
+
         public string Telfax { get; set; }
+
         public string Email1 { get; set; }
+
         public string Email2 { get; set; }
+
         public string Email3 { get; set; }
+
         public string Homepage { get; set; }
 
-
         public string Address2 { get; set; }
+
         public string Phone2 { get; set; }
+
         public string Notes { get; set; }
 
         public string Id { get; set; }
 
         public string Aday { get => aday; set => aday = value; }
+
         public string Amonth { get => amonth; set => amonth = value; }
+
         public string Ayear { get => ayear; set => ayear = value; }
 
         public string Bday { get => bday; set => bday = value; }
+
         public string Bmonth { get => bmonth; set => bmonth = value; }
+
         public string Byear { get => byear; set => byear = value; }
+
         public string Newgroup { get => newgroup; set => newgroup = value; }
+
+        public string AllPhones {
+            get
+            {
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUpPhone(Telhome) + CleanUpPhone(Telmobile) + CleanUpPhone(Telwork)+ CleanUpPhone(Phone2)).Trim();
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
+
+        private string CleanUpPhone(string phone)
+        {
+            if ( phone == null || phone == "")
+            {
+                return "";
+            }
+            else
+            {
+                return Regex.Replace(phone,"[ -()]","") + "\r\n";
+            }
+        }
+
+        private string CleanUpEmail(string email)
+        {
+            if (email == null || email == "")
+            {
+                return "";
+            }
+            else
+            {
+                return email + "\r\n";
+            }
+        }
+
+        public string AllEmails
+        {
+            get
+            {
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                else
+                {
+                    return (CleanUpEmail(Email1) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
+                }
+            }
+            set
+            {
+                allEmails = value;
+            }
+        }
 
     }
 }
