@@ -67,7 +67,7 @@ namespace addressbook_web_tests
 
         public override string ToString()
         {
-            return "Id=" + Id;
+            return "Id=" + Id + "\n FirstName=" + Firstname + "\n LastName=" + Lastname + "\n MiddleName=" + Middlename; ;
         }
 
         public string Firstname { get; set; }
