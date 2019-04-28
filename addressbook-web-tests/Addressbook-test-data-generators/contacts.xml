@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfContactData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ContactData>
+    <Firstname />
+    <Lastname>,1FZ</Lastname>
+    <Address>A;T!</Address>
+    <Aday>1</Aday>
+    <Amonth>January</Amonth>
+    <Ayear>1900</Ayear>
+    <Bday>1</Bday>
+    <Bmonth>January</Bmonth>
+    <Byear>1900</Byear>
+    <Newgroup>[none]</Newgroup>
+    <AllPhones />
+    <AllEmails />
+    <CollapsedInfo> ,1FZ
+A;T!
+Birthday 1. January 1900 (119)
+Anniversary 1. January 1900 (119)
+</CollapsedInfo>
+  </ContactData>
+  <ContactData>
+    <Firstname>OY&amp;</Firstname>
+    <Lastname>ANL;+</Lastname>
+    <Address>(</Address>
+    <Aday>1</Aday>
+    <Amonth>January</Amonth>
+    <Ayear>1900</Ayear>
+    <Bday>1</Bday>
+    <Bmonth>January</Bmonth>
+    <Byear>1900</Byear>
+    <Newgroup>[none]</Newgroup>
+    <AllPhones />
+    <AllEmails />
+    <CollapsedInfo>OY&amp; ANL;+
+(
+Birthday 1. January 1900 (119)
+Anniversary 1. January 1900 (119)
+</CollapsedInfo>
+  </ContactData>
+</ArrayOfContactData>

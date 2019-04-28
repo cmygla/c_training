@@ -21,6 +21,10 @@ namespace addressbook_web_tests
         private string allEmails;
         private string collapsedInfo;
 
+        public ContactData()
+        {
+        }
+
         public ContactData (string firstname, string lastname, string companyaddress)
         {
             Firstname = firstname;
