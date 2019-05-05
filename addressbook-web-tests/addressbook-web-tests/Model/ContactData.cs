@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
 
 namespace addressbook_web_tests
 {
+    [Table (Name ="addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         //fields
@@ -21,63 +23,18 @@ namespace addressbook_web_tests
         private string allEmails;
         private string collapsedInfo;
 
-        public ContactData()
-        {
-        }
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
 
-        public ContactData (string firstname, string lastname, string companyaddress)
-        {
-            Firstname = firstname;
-            Lastname = lastname;
-            Address = companyaddress;
-        }
+        [Column(Name = "id"),PrimaryKey]
+        public string Id { get; set; }
 
-        //функция реализующая сравнение
-        public bool Equals(ContactData other)
-        {
-            if (Object.ReferenceEquals(other, null))
-            {
-                return false;
-            }
-            if (Object.ReferenceEquals(this, other))
-            {
-                return true;
-            }
-            return (Firstname == other.Firstname)&&(Lastname == other.Lastname);
-        }
-
-        //сравнение имен
-        public int CompareTo(ContactData other)
-        {
-            if (Object.ReferenceEquals(other, null))
-            {
-                return 1;
-            }
-            if (Lastname.CompareTo(other.Lastname) == 0)
-            {
-                return Firstname.CompareTo(other.Firstname);
-            }
-            else
-            {
-                return Lastname.CompareTo(other.Lastname);
-            }
-
-        }
-
-        public override int GetHashCode()
-        {
-            return Firstname.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return "Id=" + Id + "\n FirstName=" + Firstname + "\n LastName=" + Lastname + "\n MiddleName=" + Middlename; ;
-        }
-
+        [Column (Name ="firstname")]
         public string Firstname { get; set; }
 
         public string Middlename { get; set; }
 
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
 
         public string Nickname { get; set; }
@@ -88,6 +45,7 @@ namespace addressbook_web_tests
 
         public string Company { get; set; }
 
+        [Column(Name = "address")]
         public string Address { get; set; }
 
         public string Telhome { get; set; }
@@ -111,8 +69,6 @@ namespace addressbook_web_tests
         public string Phone2 { get; set; }
 
         public string Notes { get; set; }
-
-        public string Id { get; set; }
 
         public string Aday { get => aday; set => aday = value; }
 
@@ -189,8 +145,7 @@ namespace addressbook_web_tests
             }
         }
 
-
-
+        
         public string CollapsedInfo
         {
             get
@@ -297,6 +252,68 @@ namespace addressbook_web_tests
             set
             {
                 collapsedInfo = value;
+            }
+        }
+
+        public ContactData()
+        {
+        }
+
+        public ContactData(string firstname, string lastname, string companyaddress)
+        {
+            Firstname = firstname;
+            Lastname = lastname;
+            Address = companyaddress;
+        }
+
+        //функция реализующая сравнение
+        public bool Equals(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return (Firstname == other.Firstname) && (Lastname == other.Lastname);
+        }
+
+        //сравнение имен
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            if (Lastname.CompareTo(other.Lastname) == 0)
+            {
+                return Firstname.CompareTo(other.Firstname);
+            }
+            else
+            {
+                return Lastname.CompareTo(other.Lastname);
+            }
+
+        }
+
+        public override int GetHashCode()
+        {
+            return Firstname.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return "Id=" + Id + "\n FirstName=" + Firstname + "\n LastName=" + Lastname + "\n MiddleName=" + Middlename; ;
+        }
+
+        public static List<ContactData> GetAll()
+        {
+            //установить соединение
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts.Where(x =>x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
             }
         }
 

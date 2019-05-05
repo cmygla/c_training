@@ -69,6 +69,7 @@ namespace addressbook_web_tests
             InitGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             ReturnToGroupsPage();
             return this;
         }
@@ -80,6 +81,7 @@ namespace addressbook_web_tests
             InitGroupModification();
             FillGroupForm(group);
             SubmitGroupModification();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             ReturnToGroupsPage();
             return this;
         }
@@ -94,6 +96,17 @@ namespace addressbook_web_tests
             manager.Navigator.GoToGroupsPage();
             GroupSelection(num);
             GroupDeletion();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            GroupSelection(group.Id);
+            GroupDeletion();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             ReturnToGroupsPage();
             return this;
         }
@@ -135,6 +148,12 @@ namespace addressbook_web_tests
         public GroupHelper GroupSelection(int i)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (i+1) +"]")).Click();
+            return this;
+        }
+
+        public GroupHelper GroupSelection(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='"+id+"'])")).Click();
             return this;
         }
 

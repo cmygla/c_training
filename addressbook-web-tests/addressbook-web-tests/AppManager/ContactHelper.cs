@@ -34,7 +34,36 @@ namespace addressbook_web_tests
                 AllPhones = allPhones,
                 AllEmails = allEmails,
             };
+        }
 
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToContactsPage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count>0);
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        private void SelectContact(string contactId)
+        {
+            driver.FindElement(By.Id(contactId)).Click();
+        }
+
+        private void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
         }
 
         public string GetContactInformationFromDetails(int index)
@@ -104,9 +133,7 @@ namespace addressbook_web_tests
                 Address2 = address2,
                 Phone2 = phone2,
                 Notes = notes
-
             };
-
         }
 
         // реализация кеширования в виде свойства
@@ -117,14 +144,11 @@ namespace addressbook_web_tests
             if (contactCache == null)
             {
                 contactCache = new List<ContactData>();
-
                 manager.Navigator.GoToContactsPage();
-
                 ICollection <IWebElement> rows = driver.FindElements(By.Name("entry"));
                 foreach (IWebElement element in rows)
                 {
                     IList<IWebElement> cells = element.FindElements(By.TagName("td"));
-
                     contactCache.Add(new ContactData(cells[2].Text, cells[1].Text, "")
                     {   // получить атрибут ID
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")
@@ -132,7 +156,6 @@ namespace addressbook_web_tests
                 }
             }
             //возвратить новый список , построенный из старого для избежания модификации списка извне
-
             return new List<ContactData>(contactCache);
         }
 
@@ -148,6 +171,7 @@ namespace addressbook_web_tests
             InitContactCreation();
             FillContactForm(contact);
             SubmitContactCreation();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             manager.Navigator.GoToContactsPage();
             return this;
         }
@@ -161,11 +185,23 @@ namespace addressbook_web_tests
             return false;
         }
 
+        public ContactHelper Remove(ContactData contact)
+        {
+            manager.Navigator.GoToContactsPage();
+            SelectContact(contact.Id);
+            ContactDeletion();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            manager.Navigator.GoToContactsPage();
+            return this;
+        }
+
+
         public ContactHelper Remove(int i)
         {
             manager.Navigator.GoToContactsPage();
             ContactSelection(i);
             ContactDeletion();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             manager.Navigator.GoToContactsPage();
             return this;
         }
@@ -177,12 +213,10 @@ namespace addressbook_web_tests
             InitContactModification(i);
             ModifyContactForm(contact);
             SubmitContactModification();
-
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             manager.Navigator.GoToContactsPage();
             return this;
         }
-
-
 
         public ContactHelper InitContactCreation()
         {

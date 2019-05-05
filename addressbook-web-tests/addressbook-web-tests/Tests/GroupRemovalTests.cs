@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupRemovalTests : AuthTestBase
+    public class GroupRemovalTests : GroupTestBase
     {
 
         [Test]
@@ -22,15 +22,14 @@ namespace addressbook_web_tests
                 num = 0;
             }
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-
-            app.Groups.Remove(num);
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData toBeRemoved = oldGroups[num];
+            app.Groups.Remove(toBeRemoved);
 
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
 
             //Так всегда удаляют первый элемент
-            GroupData toBeRemoved = oldGroups[num];
             oldGroups.RemoveAt(num);
             Assert.AreEqual(oldGroups, newGroups);
             foreach (GroupData group in newGroups)
