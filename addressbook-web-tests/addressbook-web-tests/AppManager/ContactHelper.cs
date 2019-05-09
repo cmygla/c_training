@@ -94,7 +94,7 @@ namespace addressbook_web_tests
             GetContactDetails(index);
 
             string details = driver.FindElement(By.Id("content")).Text;
-            return Regex.Replace(details,@"\n\r", "");
+            return Regex.Replace(details + "\r\n", @"\n\r", "");
         }
 
         public ContactData GetContactInformationFromEditForm(int index)

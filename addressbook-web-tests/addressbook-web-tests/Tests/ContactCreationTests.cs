@@ -9,7 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Excel = Microsoft.Office.Interop.Excel;
-
+using System.Linq;
 
 namespace addressbook_web_tests
 {
@@ -119,6 +119,7 @@ namespace addressbook_web_tests
             List<ContactData> oldContacts = ContactData.GetAll();
 
             app.Contacts.Create(contact);
+            contact.Id = ContactData.GetAll().Last().Id;
 
             Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = ContactData.GetAll();

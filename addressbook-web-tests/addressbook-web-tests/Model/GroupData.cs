@@ -45,7 +45,7 @@ namespace addressbook_web_tests
             {
                 return true;
             }
-            return Name == other.Name;
+            return Id == other.Id;
         }
 
         //сравнение имен
@@ -61,7 +61,7 @@ namespace addressbook_web_tests
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode();
+            return Id.GetHashCode();
         }
 
         public override string ToString()

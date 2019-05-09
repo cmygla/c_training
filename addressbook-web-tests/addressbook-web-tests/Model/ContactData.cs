@@ -188,7 +188,6 @@ namespace addressbook_web_tests
                         text = text + Address + "\r\n";
                     };
 
-
                     if (Telhome != null && Telhome != "")
                     {
                         text = text + "H: " + Telhome + "\r\n";
@@ -242,7 +241,7 @@ namespace addressbook_web_tests
                     };
                     if (Notes != null && Notes != "")
                     {
-                        text = text + Notes;
+                        text = text + Notes + "\r\n";
                     };
 
                     return text;
@@ -277,7 +276,7 @@ namespace addressbook_web_tests
             {
                 return true;
             }
-            return (Id == other.Id) && (Address == other.Address) && (Firstname == other.Firstname) && (Lastname == other.Lastname);
+            return (Id == other.Id) && (Firstname == other.Firstname) && (Lastname == other.Lastname);
         }
 
         //сравнение имен
