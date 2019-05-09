@@ -277,7 +277,7 @@ namespace addressbook_web_tests
             {
                 return true;
             }
-            return (Firstname == other.Firstname) && (Lastname == other.Lastname);
+            return (Id == other.Id) && (Address == other.Address) && (Firstname == other.Firstname) && (Lastname == other.Lastname);
         }
 
         //сравнение имен
@@ -300,7 +300,7 @@ namespace addressbook_web_tests
 
         public override int GetHashCode()
         {
-            return Firstname.GetHashCode();
+            return Id.GetHashCode();
         }
 
         public override string ToString()
@@ -316,6 +316,5 @@ namespace addressbook_web_tests
                 return (from c in db.Contacts.Where(x =>x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
             }
         }
-
     }
 }

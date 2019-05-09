@@ -16,7 +16,7 @@ namespace addressbook_web_tests
             int num = 0;
             if (!app.Contacts.ContactExists(num))
             {
-                ContactData contact = new ContactData("", "", "");
+                ContactData contact = new ContactData("Default", "Default", "Default");
                 app.Contacts.Create(contact);
                 num = 0;
             }

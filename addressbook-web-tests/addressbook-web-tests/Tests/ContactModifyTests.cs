@@ -40,7 +40,7 @@ namespace addressbook_web_tests
             int num = 0;
             if (!app.Contacts.ContactExists(num))
             {
-                ContactData contact1 = new ContactData("","","");
+                ContactData contact1 = new ContactData("Default", "Default", "Default");
                 app.Contacts.Create(contact1);
                 num = 0;
             }
