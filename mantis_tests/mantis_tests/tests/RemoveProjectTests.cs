@@ -14,9 +14,22 @@ namespace mantis_tests
         public void ProjectRemovalTest()
         {
             List<ProjectData> oldProjectsList = app.Projects.GetProjects();
+
+            if (oldProjectsList.Count == 0)
+            {
+                ProjectData project = new ProjectData()
+                {
+                    Name = GenerateRandomString(20)
+                };
+                app.Projects.Create(project);
+
+                oldProjectsList = app.Projects.GetProjects();
+            }
+            
             app.Projects.Remove(0);
 
             List<ProjectData> newProjectsList = app.Projects.GetProjects();
+
             Assert.AreEqual(oldProjectsList.Count - 1, newProjectsList.Count);
             oldProjectsList.RemoveAt(0);
             newProjectsList.Sort();
