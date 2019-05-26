@@ -24,8 +24,7 @@ namespace mantis_tests
         public void ProjectCreationTest()
         {
 
-
-            List<ProjectData> oldProjectsList = app.Projects.GetProjects();
+            List<ProjectData> oldProjectsList = app.Projects.APIGetProjects();
 
             ProjectData project = new ProjectData()
             {
@@ -33,10 +32,9 @@ namespace mantis_tests
             };
 
             app.Projects.Create(project);
+            List<ProjectData> newProjectsList = app.Projects.APIGetProjects();
 
-            Assert.AreEqual(oldProjectsList.Count + 1, app.Projects.GetProjects().Count);
-
-            List<ProjectData> newProjectsList = app.Projects.GetProjects();
+            Assert.AreEqual(oldProjectsList.Count + 1, newProjectsList.Count);
             oldProjectsList.Add(project);
             newProjectsList.Sort();
             oldProjectsList.Sort();

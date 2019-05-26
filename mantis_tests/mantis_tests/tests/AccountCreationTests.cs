@@ -23,12 +23,18 @@ namespace mantis_tests
         [Test]
         public void TestAccountRegistration()
         {
-            AccountData account = new AccountData() {
+                 AccountData account = new AccountData() {
                 Name = "testuser",
                 Password = "password",
                 Email = "testuser@localhost.localdomain"
             };
 
+            List<AccountData> accounts = app.Admin.GetAllAccounts();
+            AccountData existingAccount = accounts.Find(x => x.Name == account.Name);
+            if (existingAccount != null)
+            {
+                app.Admin.DeleteAccount(existingAccount);
+            }
             //Work with Telnet
             //app.JamesHelper.Delete(account);
             //app.JamesHelper.Add(account);

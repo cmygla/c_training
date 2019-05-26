@@ -12,7 +12,17 @@ namespace mantis_tests
     public class ProjectManagementHelper : BaseHelper
 
     {
-        public ProjectManagementHelper(ApplicationManager manager) : base(manager) { }
+        private AccountData AdminAuth;
+        
+        public ProjectManagementHelper(ApplicationManager manager) : base(manager) {
+
+            AdminAuth = new AccountData()
+            {
+                Name = "administrator",
+                Password = "root"
+            };
+        }
+        
 
         public ProjectManagementHelper Create(ProjectData project)
         {
@@ -78,6 +88,39 @@ namespace mantis_tests
             }
             return projects;
         }
+
+
+        public ProjectManagementHelper APIAdd(ProjectData project)
+        {
+
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData APIProject = new Mantis.ProjectData
+            {
+                name = project.Name,
+            };
+
+            client.mc_project_add(AdminAuth.Name, AdminAuth.Password, APIProject);
+            return this;
+        }
+
+        public List<ProjectData> APIGetProjects()
+        {
+            List<ProjectData> projects = new List<ProjectData>();
+
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData[]  APIProjects = client.mc_projects_get_user_accessible(AdminAuth.Name, AdminAuth.Password);
+
+            foreach (Mantis.ProjectData APIProject in APIProjects)
+            {
+                    projects.Add(new ProjectData()
+                    {
+                        Name = APIProject.name,
+                        Id = APIProject.id
+                    });
+            }
+            return projects;
+        }
+
 
         private void SubmitRemovalProject()
         {

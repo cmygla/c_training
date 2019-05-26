@@ -24,6 +24,7 @@ namespace mantis_tests
         public ManagementMenuHelper Menu { get; set; }
         public LoginHelper Auth { get; set; }
         public AdminHelper Admin { get; set; }
+        public APIHelper API { get; set; }
 
         //устанавливает соответствие между текущим потом и объектом application manager
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
@@ -41,7 +42,7 @@ namespace mantis_tests
             Menu = new ManagementMenuHelper(this, baseURL);
             Auth = new LoginHelper(this);
             Admin = new AdminHelper(this, baseURL);
-
+            API = new APIHelper(this);
         }
 
         //destructor

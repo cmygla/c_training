@@ -15,6 +15,8 @@ namespace mantis_tests
         {
             for (int i = 0; i < 20; i++)
             {
+                //чтобы избежать кещирования, которое делает Pop3 будем подключаться заново
+                //порт 110 - стандартный порт для pop3
                 Pop3Client pop3 = new Pop3Client("localhost", 110, account.Name, account.Password, false);
                 pop3.Connect();
                 pop3.Authenticate();
@@ -23,6 +25,8 @@ namespace mantis_tests
                     MailMessage message = pop3.GetMessage(1);
                     string body = message.Body;
                     pop3.DeleteMessage(1);
+                    // только после логаута письма будут удаляться (подтверждаются все действия)
+                    pop3.LogOut();
                     return body;
                 }
                 else

@@ -13,7 +13,7 @@ namespace mantis_tests
         [Test]
         public void ProjectRemovalTest()
         {
-            List<ProjectData> oldProjectsList = app.Projects.GetProjects();
+            List<ProjectData> oldProjectsList = app.Projects.APIGetProjects();
 
             if (oldProjectsList.Count == 0)
             {
@@ -21,14 +21,14 @@ namespace mantis_tests
                 {
                     Name = GenerateRandomString(20)
                 };
-                app.Projects.Create(project);
+                app.Projects.APIAdd(project);
 
-                oldProjectsList = app.Projects.GetProjects();
+                oldProjectsList = app.Projects.APIGetProjects();
             }
             
             app.Projects.Remove(0);
 
-            List<ProjectData> newProjectsList = app.Projects.GetProjects();
+            List<ProjectData> newProjectsList = app.Projects.APIGetProjects();
 
             Assert.AreEqual(oldProjectsList.Count - 1, newProjectsList.Count);
             oldProjectsList.RemoveAt(0);
