@@ -34,6 +34,7 @@ namespace addressbook_web_tests
             catch (NoSuchElementException)
             {
                 return false;
+
             }
         }
     }
